@@ -22,579 +22,65 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const SAFE_MODE = false;
-    const banana = "#F7C948";
-    const bananaDark = "#F0B429";
-    const leaf = "#6FBF73";
-    const charcoal = "#222222";
-    const stone = "#666";
-    const pageBg = "#FFFFFF";
-    const colorSalted = "#2196F3";
-    const colorSpicy  = "#E53935";
-    const colorMint   = "#2E7D32";
+    const banana = "#F7C948", bananaDark="#F0B429", leaf="#6FBF73", charcoal="#222", stone="#666", pageBg="#FFFFFF";
+    const colorSalted="#2196F3", colorSpicy="#E53935", colorMint="#2E7D32";
     const rgb = { salted: "33,150,243", spicy: "229,57,53", mint: "46,125,50" };
 
-    function GlobalStyles() {
-      return (<style>{\`
-        .app { background: \${pageBg}; min-height: 100vh; }
-        .framed { border-radius: 24px; padding: 20px; box-shadow: 0 12px 28px rgba(0,0,0,.06); border: 1px solid rgba(0,0,0,.06); background: #fff; }
-        @media (min-width: 640px){ .framed { padding: 28px; } }
-        .frame-banana, .frame-ivory, .frame-sage, .frame-paper { background: #fff; }
-        .frame-cta { background: linear-gradient(90deg, rgba(247,201,72,.20), rgba(111,191,115,.18)); }
-        .hoverable { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease, filter .25s ease; }
-        .hoverable:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0,0,0,.12); border-color: rgba(0,0,0,.12) !important; }
-        .shimmer-border { position: relative; background: linear-gradient(#fff,#fff) padding-box, conic-gradient(from 0deg, \${banana}, \${leaf}, \${banana}) border-box; animation: spin 10s linear infinite; }
-        @keyframes spin { to { filter: hue-rotate(360deg); } }
-        .site-header { position: sticky; top: 0; z-index: 60; background: transparent; }
-        .header-wrap { padding: 12px 0; }
-        .header-bar { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-radius: 18px; padding: 10px 14px; background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.86)); border: 1px solid rgba(0,0,0,.06); backdrop-filter: blur(10px) saturate(140%); box-shadow: 0 16px 34px rgba(0,0,0,.12); }
-        .header-bar::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -6px; height: 10px; background: radial-gradient(50% 50% at 50% 0%, rgba(0,0,0,.14), transparent 70%); pointer-events: none; filter: blur(6px); }
-        .brand-mark { display:inline-flex; height: 36px; width: 36px; border-radius: 12px; align-items:center; justify-content:center; color:#fff; background:\${charcoal}; }
-        .nav-pills a { padding: 8px 12px; border-radius: 999px; }
-        .nav-pills a:hover { background: rgba(0,0,0,.06); }
-        .btn { transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.12); }
-        .btn--banana { background: linear-gradient(90deg, \${banana}, \${bananaDark}); color:#111; border:1px solid rgba(0,0,0,.06); }
-        .btn--ghost { background:#fff; border:1px solid rgba(0,0,0,.12); }
-        .menu-link { position: relative; }
-        .menu-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: \${charcoal}; transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
-        .menu-link:hover::after { transform: scaleX(1); }
-        .img-zoom { overflow: hidden; border-radius: 16px; }
-        .img-zoom img { transition: transform .4s ease; }
-        .img-zoom:hover img { transform: scale(1.05); }
-        .link-chip { border:1px solid rgba(0,0,0,.12); border-radius:14px; padding:6px 10px; display:inline-flex; align-items:center; gap:8px; transition: background .25s, color .25s, transform .2s; }
-        .link-chip:hover { background:\${banana}; color:#000; transform: translateY(-2px); }
-        .kicker-pill { background: linear-gradient(90deg, rgba(247,201,72,.28), rgba(111,191,115,.22)); border:1px solid rgba(0,0,0,.12); color:\${charcoal}; }
-        .framed h2::after { content:""; display:block; width:64px; height:6px; margin-top:12px; border-radius:4px; opacity:.45; background: linear-gradient(90deg, \${banana}, \${leaf}); }
-        .grad-text { background: linear-gradient(90deg, #333 0%, #111 40%, #333 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .product-card { position: relative; background:#fff; border:1px solid rgba(0,0,0,.08); }
-        .product-card::before { content:""; position:absolute; left:0; right:0; top:0; height:4px; border-radius:24px 24px 0 0; background: transparent; transition: background .25s ease; }
-        .flavor-chip { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; border:1px solid rgba(0,0,0,.1); font-size:.75rem; background:#fafafa; }
-        .thumb { border-radius: 18px; padding: 18px; transition: transform .35s ease, box-shadow .35s ease, filter .35s ease; }
-        .product-card:hover .thumb { transform: translateY(-2px) rotate(-.25deg); box-shadow: 0 14px 28px rgba(0,0,0,.12); }
-        .card--salted:hover { border-color: rgba(33,150,243,.5); box-shadow: 0 18px 40px rgba(33,150,243,.25); }
-        .card--salted:hover::before { background: \${colorSalted}; }
-        .card--salted:hover .flavor-chip { background: rgba(33,150,243,.10); border-color: rgba(33,150,243,.45); color:#0D47A1; }
-        .card--spicy:hover { border-color: rgba(229,57,53,.55); box-shadow: 0 18px 40px rgba(229,57,53,.28); }
-        .card--spicy:hover::before { background: \${colorSpicy}; }
-        .card--spicy:hover .flavor-chip { background: rgba(229,57,53,.10); border-color: rgba(229,57,53,.45); color:#7F0000; }
-        .card--mint:hover { border-color: rgba(46,125,50,.55); box-shadow: 0 18px 40px rgba(46,125,50,.28); }
-        .card--mint:hover::before { background: \${colorMint}; }
-        .card--mint:hover .flavor-chip { background: rgba(46,125,50,.10); border-color: rgba(46,125,50,.45); color:#0B3D0B; }
-        .step { position: relative; padding-left: 48px; }
-        .step::before { content: attr(data-step); position:absolute; left:12px; top:16px; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; background: linear-gradient(90deg, \${banana}, \${leaf}); color:#111; box-shadow: 0 6px 14px rgba(0,0,0,.12); }
-      \`}</style>);
-    }
+    function GlobalStyles(){return (<style>{`
+      .app{background:${pageBg};min-height:100vh;}
+      .framed{border-radius:24px;padding:20px;box-shadow:0 12px 28px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.06);background:#fff;}
+      @media(min-width:640px){.framed{padding:28px;}}
+      .hoverable{transition:transform .25s,box-shadow .25s,border-color .25s,background .25s,filter .25s;}
+      .hoverable:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.12);border-color:rgba(0,0,0,.12)!important;}
+      .nav-pills a{padding:8px 12px;border-radius:999px;}
+      .nav-pills a:hover{background:rgba(0,0,0,.06);}
+      .btn{transition:transform .2s,box-shadow .2s,opacity .2s;}
+      .btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.12);}
+      .btn--banana{background:linear-gradient(90deg, ${banana}, ${bananaDark});color:#111;border:1px solid rgba(0,0,0,.06);}
+      .btn--ghost{background:#fff;border:1px solid rgba(0,0,0,.12);}
+      .kicker-pill{background:linear-gradient(90deg, rgba(247,201,72,.28), rgba(111,191,115,.22));border:1px solid rgba(0,0,0,.12);color:${charcoal};}
+      .grad-text{background:linear-gradient(90deg,#333 0%,#111 40%,#333 80%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+      .product-card{position:relative;background:#fff;border:1px solid rgba(0,0,0,.08);}
+      .product-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;border-radius:24px 24px 0 0;background:transparent;transition:background .25s;}
+      .flavor-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid rgba(0,0,0,.1);font-size:.75rem;background:#fafafa;}
+      .thumb{border-radius:18px;padding:18px;transition:transform .35s,box-shadow .35s,filter .35s;}
+      .product-card:hover .thumb{transform:translateY(-2px) rotate(-.25deg);box-shadow:0 14px 28px rgba(0,0,0,.12);}
+      .card--salted:hover{border-color:rgba(33,150,243,.5);box-shadow:0 18px 40px rgba(33,150,243,.25);}
+      .card--salted:hover::before{background:${colorSalted};}
+      .card--spicy:hover{border-color:rgba(229,57,53,.55);box-shadow:0 18px 40px rgba(229,57,53,.28);}
+      .card--spicy:hover::before{background:${colorSpicy};}
+      .card--mint:hover{border-color:rgba(46,125,50,.55);box-shadow:0 18px 40px rgba(46,125,50,.28);}
+      .card--mint:hover::before{background:${colorMint};}
+    `}</style>);}
 
-    function Container({ children }) { return <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">{children}</div>; }
+    function Container({children}){return <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">{children}</div>;}
+    function Section({id,children,className="",style,frameClass=""}){return(<section id={id} className={\`py-12 sm:py-16 \${className}\`} style={style}><Container><div className={\`framed hoverable \${frameClass}\`}>{children}</div></Container></section>);}
+    function SectionHeadline({kicker,title,subtitle,center=false}){return(<div className={center?'text-center':''}>{kicker&&(<div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs tracking-wide uppercase kicker-pill">{kicker}</div>)}{title&&(<h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight" style={{ color: '#222' }}>{title}</h2>)}{subtitle&&(<p className="mt-3 text-sm sm:text-base max-w-2xl" style={{ color: '#666', marginInline: center ? 'auto' : undefined }}>{subtitle}</p>)}</div>);}
+    function Img({src,alt,height=220,radius=16}){return(<div className="overflow-hidden img-zoom" style={{borderRadius:radius,height,background:"rgba(0,0,0,.04)"}}><img src={src} alt={alt} loading="lazy" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={(e)=>{const el=e.currentTarget;el.style.display="none";const parent=el.parentElement;if(parent)parent.innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;">🍌</div>';}} /></div>);}
 
-    function Section({ id, children, className = "", style, frameClass = "" }) {
-      return (
-        <section id={id} className={\`py-12 sm:py-16 \${className}\`} style={style}>
-          <Container>
-            <div className={\`framed hoverable \${frameClass}\`}>{children}</div>
-          </Container>
-        </section>
-      );
-    }
+    function Nav(){return(<header className="site-header"><Container><div className="header-wrap"><div className="header-bar"><a href="#home" className="flex items-center gap-2"><span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-white" style={{background:'#222'}}>🍌</span><span className="font-extrabold text-xl tracking-tight" style={{color:'#222'}}>Amantra</span></a><nav className="hidden md:flex items-center gap-2 text-sm nav-pills" style={{color:'#222'}}><a href="#about" className="px-3 py-2">About</a><a href="#products" className="px-3 py-2">Products</a><a href="#process" className="px-3 py-2">Process</a><a href="#contact" className="px-3 py-2">Contact</a></nav></div></div></Container></header>);}
 
-    function SectionHeadline({ kicker, title, subtitle, center = false }) {
-      return (
-        <div className={center ? "text-center" : ""}>
-          {kicker && (<div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs tracking-wide uppercase kicker-pill">{kicker}</div>)}
-          {title && (<h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight" style={{ color: charcoal }}>{title}</h2>)}
-          {subtitle && (<p className="mt-3 text-sm sm:text-base max-w-2xl" style={{ color: stone, marginInline: center ? "auto" : undefined }}>{subtitle}</p>)}
-        </div>
-      );
-    }
+    function Hero(){return(<Section id="home"><div className="text-center"><div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm mb-6 kicker-pill">100% veg • Zero palm oil • Small-batch</div><h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight grad-text">Pure Banana Bliss — Done Right</h1><p className="mt-5 text-base sm:text-lg max-w-2xl mx-auto" style={{color:'#666'}}>Clean, crunchy banana chips made in sunflower oil. No palm. No fake flavours. Just real goodness.</p><div className="mt-8 flex items-center justify-center gap-3"><a href="#products" className="px-5 py-3 rounded-2xl btn btn--banana">See Products</a><a href="#about" className="px-4 py-2 rounded-2xl text-sm btn btn--ghost" style={{color:'#222'}}>About Amantra</a></div></div></Section>);}
 
-    function Img({ src, alt, height = 220, radius = 16 }) {
-      if (SAFE_MODE) {
-        return (<div className="overflow-hidden flex items-center justify-center img-zoom" style={{ borderRadius: radius, height, background: "rgba(0,0,0,.04)", fontSize: 48 }} aria-label={alt} title={alt}>🍌</div>);
-      }
-      return (
-        <div className="overflow-hidden img-zoom" style={{ borderRadius: radius, height, background: "rgba(0,0,0,.04)" }}>
-          <img src={src} alt={alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-            onError={(e) => { const el = e.currentTarget; el.style.display = "none"; const parent = el.parentElement; if (parent) parent.innerHTML = '<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;">🍌</div>'; }} />
-        </div>
-      );
-    }
+    function About(){return(<Section id="about"><SectionHeadline kicker="Our Story" title="Clean, crunchy, consciously made" subtitle="Amantra was born to make a better chip — one you can enjoy daily without second thoughts." center/></Section>);}
 
-    class ErrorBoundary extends React.Component {
-      constructor(props) { super(props); this.state = { hasError: false, error: null }; }
-      static getDerivedStateFromError(error) { return { hasError: true, error }; }
-      componentDidCatch(error, info) { console.error("ErrorBoundary caught", error, info); }
-      render() {
-        if (this.state.hasError) {
-          return (<div role="alert" className="p-6 m-6 rounded-2xl border" style={{ borderColor: "rgba(0,0,0,.1)" }}>
-            <h2 className="text-xl font-bold" style={{ color: charcoal }}>Something went wrong.</h2>
-            <p className="mt-2" style={{ color: stone }}>The page hit a runtime error. Refresh to retry.</p>
-          </div>);
-        }
-        return this.props.children;
-      }
-    }
-
-    function ContactModal({ open, onClose }) {
-      const ref = React.useRef(null);
-      React.useEffect(() => {
-        function onKey(e) { if (e.key === 'Escape') onClose(); }
-        if (open) document.addEventListener('keydown', onKey);
-        return () => document.removeEventListener('keydown', onKey);
-      }, [open, onClose]);
-
-      function onSubmit(e) {
-        e.preventDefault();
-        const data = Object.fromEntries(new FormData(e.currentTarget).entries());
-        console.log('Quick contact submitted', data);
-        onClose();
-        alert('Thanks! We’ll reply within a business day.');
-      }
-
-      if (!open) return null;
-      return (
-        <div role="dialog" aria-modal="true" className="fixed inset-0 z-[100]">
-          <div onClick={onClose} className="absolute inset-0" style={{ background: 'rgba(0,0,0,.35)' }}></div>
-          <div ref={ref} className="absolute right-0 top-0 h-full w-full sm:w-[540px] bg-white shadow-2xl overflow-auto">
-            <div className="p-6 border-b flex items-center justify-between">
-              <h3 className="text-xl font-bold" style={{ color: charcoal }}>Let’s talk</h3>
-              <button onClick={onClose} aria-label="Close" className="rounded-xl border px-3 py-1">✕</button>
-            </div>
-            <div className="p-6">
-              <p className="text-sm" style={{ color: stone }}>Share a few details and we’ll get back within one business day.</p>
-              <form className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4" onSubmit={onSubmit}>
-                <select name="type" className="rounded-2xl border px-3 py-2 sm:col-span-2" defaultValue="Retail">
-                  <option>Retail</option>
-                  <option>Bulk / B2B</option>
-                  <option>Distributor</option>
-                </select>
-                <input name="name" placeholder="Your name" className="rounded-2xl border px-3 py-2" required />
-                <input name="email" type="email" placeholder="Email" className="rounded-2xl border px-3 py-2" required />
-                <input name="phone" type="tel" placeholder="Phone / WhatsApp" className="rounded-2xl border px-3 py-2 sm:col-span-2" />
-                <input name="quantity" type="number" min="1" placeholder="Approx. qty (kg or packs)" className="rounded-2xl border px-3 py-2" />
-                <input name="city" placeholder="City" className="rounded-2xl border px-3 py-2" />
-                <textarea name="message" placeholder="Tell us what you need…" rows="5" className="rounded-2xl border px-3 py-2 sm:col-span-2" required />
-                <input name="_website" tabIndex="-1" autoComplete="off" style={{ position:'absolute', left:'-5000px' }} />
-                <div className="sm:col-span-2 flex items-center gap-3">
-                  <button className="rounded-2xl px-4 py-2 text-white btn" style={{ background: charcoal }}>Send</button>
-                  <a href="https://wa.me/919000000000?text=Hi%20Amantra%2C%20I%20want%20to%20enquire" target="_blank" rel="noreferrer" className="underline text-sm" style={{ color: charcoal }}>Chat on WhatsApp</a>
-                </div>
-              </form>
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-                <a className="rounded-2xl border p-3 link-chip" href="mailto:hello@amantra.com">✉ Email</a>
-                <a className="rounded-2xl border p-3 link-chip" href="tel:+919000000000">☎ Call</a>
-                <a className="rounded-2xl border p-3 link-chip" href="https://wa.me/919000000000" target="_blank" rel="noreferrer">💬 WhatsApp</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    function Nav() {
-      return (
-        <header className="site-header">
-          <Container>
-            <div className="header-wrap">
-              <div className="header-bar">
-                <a href="#home" className="flex items-center gap-2">
-                  <span className="brand-mark">🍌</span>
-                  <span className="font-extrabold text-xl tracking-tight" style={{ color: charcoal }}>Amantra</span>
-                </a>
-                <nav className="hidden md:flex items-center gap-2 text-sm nav-pills" style={{ color: charcoal }}>
-                  <a href="#about" className="menu-link px-3 py-2">About</a>
-                  <a href="#products" className="menu-link px-3 py-2">Products</a>
-                  <a href="#process" className="menu-link px-3 py-2">Process</a>
-                  <a href="#sustainability" className="menu-link px-3 py-2">Sustainability</a>
-                  <a href="#contact" className="px-4 py-2 rounded-2xl text-white btn" style={{ background: charcoal }}>Enquire</a>
-                </nav>
-                <a href="#contact" className="md:hidden px-3 py-1.5 rounded-2xl text-white text-sm btn" style={{ background: charcoal }}>Enquire</a>
-              </div>
-            </div>
-          </Container>
-        </header>
-      );
-    }
-
-    function Hero({ openContact }) {
-      return (
-        <Section id="home" frameClass="frame-banana shimmer-border">
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm mb-6 kicker-pill">
-              100% veg • Zero palm oil • Small‑batch
-            </div>
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight grad-text">Pure Banana Bliss — Done Right</h1>
-            <p className="mt-5 text-base sm:text-lg max-w-2xl mx-auto" style={{ color: stone }}>
-              Clean, crunchy banana chips made in sunflower oil. No palm. No fake flavours. Just real goodness.
-            </p>
-            <div className="mt-8 flex items-center justify-center gap-3">
-              <a href="#products" className="px-5 py-3 rounded-2xl btn btn--banana">See Products</a>
-              <a href="#about" className="px-4 py-2 rounded-2xl text-sm btn btn--ghost" style={{ color: charcoal }}>About Amantra</a>
-              <button data-test="open-contact" onClick={openContact} className="px-4 py-2 rounded-2xl border text-sm btn" style={{ borderColor: "rgba(0,0,0,.15)", color: charcoal, background: '#fff' }}>Let’s Talk →</button>
-            </div>
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="rounded-2xl p-6 border hoverable" style={{ borderColor: "rgba(0,0,0,.08)" }}>
-                <h3 className="font-semibold" style={{ color: charcoal }}>Sunflower Oil</h3>
-                <p className="text-sm mt-1" style={{ color: stone }}>We skip palm oil. Always.</p>
-              </div>
-              <div className="rounded-2xl p-6 border hoverable" style={{ borderColor: "rgba(0,0,0,.08)" }}>
-                <h3 className="font-semibold" style={{ color: charcoal }}>Small‑Batch</h3>
-                <p className="text-sm mt-1" style={{ color: stone }}>Consistent crunch and colour.</p>
-              </div>
-              <div className="rounded-2xl p-6 border hoverable" style={{ borderColor: "rgba(0,0,0,.08)" }}>
-                <h3 className="font-semibold" style={{ color: charcoal }}>Honest Ingredients</h3>
-                <p className="text-sm mt-1" style={{ color: stone }}>Bananas • Sea Salt • Spices.</p>
-              </div>
-            </div>
-          </div>
-        </Section>
-      );
-    }
-
-    function About() {
-      return (
-        <Section id="about" className="bg-transparent" frameClass="frame-ivory">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-            <Img src="https://source.unsplash.com/960x720/?banana,chips,packaging" alt="Amantra packaging" height={320} />
-            <div>
-              <SectionHeadline kicker="Our Story" title="Clean, crunchy, consciously made" subtitle="Amantra was born to make a better chip — one you can enjoy daily without second thoughts. We choose sunflower oil, keep the ingredient list short, and obsess over texture." />
-              <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm" style={{ color: charcoal }}>
-                <li>✔ 100% veg</li>
-                <li>✔ Zero palm oil</li>
-                <li>✔ Batches tested for quality</li>
-                <li>✔ Pan‑India shipping (B2B/Bulk)</li>
-              </ul>
-            </div>
-          </div>
-        </Section>
-      );
-    }
-
-    function Products() {
-      const items = [
-        { name: "Classic Salted", note: "Sea salt, pure crunch", img: "https://source.unsplash.com/600x450/?banana,chips,classic", flavor: "salted" },
-        { name: "Spicy Masala", note: "A gentle kick", img: "https://source.unsplash.com/600x450/?banana,chips,spicy", flavor: "spicy" },
-        { name: "Mint", note: "Fresh mint lift", img: "https://source.unsplash.com/600x450/?banana,chips,mint", flavor: "mint" },
+    function Products(){
+      const items=[
+        {name:"Classic Salted",note:"Sea salt, pure crunch",img:"https://source.unsplash.com/600x450/?banana,chips,classic",flavor:"salted"},
+        {name:"Spicy Masala",note:"A gentle kick",img:"https://source.unsplash.com/600x450/?banana,chips,spicy",flavor:"spicy"},
+        {name:"Mint",note:"Fresh mint lift",img:"https://source.unsplash.com/600x450/?banana,chips,mint",flavor:"mint"},
       ];
-      const colorMap = { salted: colorSalted, spicy: colorSpicy, mint: colorMint };
-      return (
-        <Section id="products" frameClass="frame-banana">
-          <SectionHeadline center kicker="Showcase" title="Products" subtitle="Signature flavours crafted for everyday snacking." />
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {items.map((p, i) => (
-              <div key={i} className={f`rounded-2xl p-4 hoverable product-card card--${p.flavor}`} data-flavor={p.flavor} style={{ borderColor: "rgba(0,0,0,.08)" }}>
-                <div className="flex items-center justify-between mt-1">
-                  <span className="flavor-chip" style={{ color: charcoal }}>
-                    <span style={{ width:10, height:10, borderRadius:999, display:'inline-block', background: colorMap[p.flavor] }}></span>
-                    {p.name}
-                  </span>
-                </div>
-                <div className="mt-3">
-                  <div className="thumb" style={{ background: `linear-gradient(180deg, rgba(${rgb[p.flavor]}, .14), rgba(${rgb[p.flavor]}, .05))` }}>
-                    <Img src={p.img} alt={`${p.name} chips`} height={220} />
-                  </div>
-                  <p className="text-sm mt-3" style={{ color: stone }}>{p.note}</p>
-                </div>
-                <div className="mt-4 flex items-center gap-2">
-                  <a href="#contact" className="px-4 py-2 rounded-2xl text-white btn" style={{ background: charcoal }}>Enquire</a>
-                  <a href="#process" className="text-sm menu-link" style={{ color: charcoal }}>See process</a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-      );
+      const colorMap={salted:colorSalted,spicy:colorSpicy,mint:colorMint};
+      return(<Section id="products"><SectionHeadline center kicker="Showcase" title="Products" subtitle="Signature flavours crafted for everyday snacking." /> <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{items.map((p,i)=>(<div key={i} className={`rounded-2xl p-4 hoverable product-card card--${p.flavor}`} data-flavor={p.flavor} style={{borderColor:"rgba(0,0,0,.08)"}}><div className="flex items-center justify-between mt-1"><span className="flavor-chip" style={{color:'#222'}}><span style={{width:10,height:10,borderRadius:999,display:"inline-block",background:colorMap[p.flavor]}}></span>{p.name}</span></div><div className="mt-3"><div className="thumb" style={{background:`linear-gradient(180deg, rgba(${rgb[p.flavor]}, .14), rgba(${rgb[p.flavor]}, .05))`}}><Img src={p.img} alt={`${p.name} chips`} height={220} /></div><p className="text-sm mt-3" style={{color:'#666'}}>{p.note}</p></div><div className="mt-4 flex items-center gap-2"><a href="#contact" className="px-4 py-2 rounded-2xl text-white btn" style={{background:'#222'}}>Enquire</a><a href="#process" className="text-sm" style={{color:'#222'}}>See process</a></div></div>))}</div></Section>);
     }
 
-    function CalloutCTA() {
-      return (
-        <Section id="cta" frameClass="frame-cta">
-          <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-extrabold" style={{ color: charcoal }}>Want samples or a custom flavour?</h2>
-            <p className="mt-2" style={{ color: stone }}>We do retail packs and bulk orders for cafés, offices, and events.</p>
-            <div className="mt-5 flex items-center justify-center gap-3">
-              <a href="#contact" className="px-5 py-3 rounded-2xl btn btn--banana">Talk to us</a>
-              <a href="#products" className="px-4 py-2 rounded-2xl text-sm btn btn--ghost" style={{ color: charcoal }}>Browse products</a>
-            </div>
-          </div>
-        </Section>
-      );
-    }
+    function Contact(){return(<Section id="contact"><SectionHeadline center title="Let’s talk" subtitle="Share your requirement. We’ll reply within one business day." /> <form className="mt-6 mx-auto max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4"><input placeholder="Your name" className="rounded-2xl border px-3 py-2" required/><input type="email" placeholder="Email" className="rounded-2xl border px-3 py-2" required/><textarea rows="4" placeholder="Message" className="rounded-2xl border px-3 py-2 sm:col-span-2" required></textarea><button className="rounded-2xl px-4 py-2 text-white btn sm:col-span-2" style={{background:'#222'}}>Send</button></form></Section>);}
 
-    function Process() {
-      const steps = [
-        { title: "Sourcing", text: "Green bananas selected for texture." },
-        { title: "Slicing", text: "Even cuts for uniform frying." },
-        { title: "Frying", text: "Sunflower oil only, precise temps." },
-        { title: "Seasoning", text: "Balanced salt/spice or jaggery glaze." },
-        { title: "Quality Check", text: "Colour, moisture, crunch test." },
-        { title: "Packaging", text: "Sealed for freshness, labeled." },
-      ];
-      return (
-        <Section id="process" className="bg-transparent" frameClass="frame-paper">
-          <SectionHeadline center kicker="How we make it" title="Our Process" subtitle="Every batch follows the same disciplined steps to lock in that signature crisp." />
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {steps.map((s, i) => (
-              <div key={i} className="rounded-2xl p-5 border hoverable step" data-step={(i+1).toString().padStart(2,'0')} style={{ borderColor: "rgba(0,0,0,.1)" }}>
-                <h3 className="font-semibold" style={{ color: charcoal }}>{s.title}</h3>
-                <p className="mt-1 text-sm" style={{ color: stone }}>{s.text}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-      );
-    }
+    function Footer(){return(<footer className="mt-16 border-t"><Container><div className="py-6 text-center text-sm" style={{color:'#666'}}>© {new Date().getFullYear()} Amantra. Made with ❤️ for snack lovers.</div></Container></footer>);}
 
-    function Sustainability() {
-      const points = [
-        { k: "Oil", v: "Sunflower — zero palm" },
-        { k: "Ingredients", v: "Short, readable list" },
-        { k: "Batches", v: "Small for consistency" },
-        { k: "Packaging", v: "Recyclable options" },
-      ];
-      return (
-        <Section id="sustainability" className="bg-transparent" frameClass="frame-sage">
-          <SectionHeadline center kicker="Better choices" title="Sustainability" subtitle="Doing right by people and the planet." />
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {points.map((p, i) => (
-              <div key={i} className="rounded-2xl p-5 border text-center hoverable" style={{ borderColor: "rgba(0,0,0,.1)" }}>
-                <div className="text-sm uppercase tracking-wide" style={{ color: stone }}>{p.k}</div>
-                <div className="mt-1 font-semibold" style={{ color: charcoal }}>{p.v}</div>
-              </div>
-            ))}
-          </div>
-        </Section>
-      );
-    }
+    function App(){return(<main className="app font-sans antialiased text-black"><GlobalStyles/><Nav/><Hero/><About/><Products/><Contact/><Footer/></main>);}
 
-    function Testimonials() {
-      const items = [
-        { q: "Crisp without the grease — finally!", a: "Retail partner, Mumbai" },
-        { q: "Kids love the jaggery flavour.", a: "Parent, Pune" },
-        { q: "Clean label, consistent quality.", a: "Café owner, Bengaluru" },
-      ];
-      return (
-        <Section id="testimonials" className="bg-transparent" frameClass="frame-ivory">
-          <SectionHeadline center kicker="Word of mouth" title="What people say" />
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            {items.map((t, i) => (
-              <div key={i} className="rounded-2xl border p-6 hoverable" style={{ borderColor: "rgba(0,0,0,.1)" }}>
-                <p style={{ color: charcoal }} className="text-base">“{t.q}”</p>
-                <p className="mt-2 text-sm" style={{ color: stone }}>— {t.a}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-      );
-    }
-
-    function Contact() {
-      const [showPreview, setShowPreview] = React.useState(null);
-
-      function onSubmit(e) {
-        e.preventDefault();
-        const data = Object.fromEntries(new FormData(e.currentTarget).entries());
-        console.log("Contact form submitted", data);
-        alert('Thanks! We’ll get back within a business day.');
-        e.currentTarget.reset();
-        setShowPreview(null);
-      }
-
-      function onFileChange(e) {
-        const f = e.currentTarget.files?.[0];
-        if (!f) return setShowPreview(null);
-        if (!f.type.startsWith('image/')) return setShowPreview('not-image');
-        const url = URL.createObjectURL(f);
-        setShowPreview(url);
-      }
-
-      return (
-        <Section id="contact" className="bg-transparent" frameClass="frame-banana">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div>
-              <SectionHeadline title="Let’s talk" subtitle="Share your requirement. We’ll reply within one business day." />
-              <div className="mt-6 grid grid-cols-3 gap-3 text-sm">
-                <a className="rounded-2xl border p-3 text-center link-chip" href="mailto:hello@amantra.com">✉ Email</a>
-                <a className="rounded-2xl border p-3 text-center link-chip" href="tel:+919000000000">☎ Call</a>
-                <a className="rounded-2xl border p-3 text-center link-chip" href="https://wa.me/919000000000" target="_blank" rel="noreferrer">💬 WhatsApp</a>
-              </div>
-              <div className="mt-6 space-y-2 text-sm" style={{ color: charcoal }}>
-                <div>⏱️ Response: &lt; 1 business day</div>
-                <div>🕘 Hours: 9:00–18:00 IST (Mon–Sat)</div>
-                <div>📍 India • Ships pan‑India</div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-2 rounded-2xl border p-6 hoverable" style={{ borderColor: "rgba(0,0,0,.1)" }}>
-              <form className="grid grid-cols-1 sm:grid-cols-2 gap-4" onSubmit={onSubmit}>
-                <select name="type" className="rounded-2xl border px-3 py-2" defaultValue="Retail">
-                  <option>Retail</option>
-                  <option>Bulk / B2B</option>
-                  <option>Distributor</option>
-                </select>
-                <select name="preference" className="rounded-2xl border px-3 py-2" defaultValue="Email">
-                  <option>Email</option>
-                  <option>WhatsApp</option>
-                  <option>Phone</option>
-                </select>
-                <input name="name" placeholder="Your name" className="rounded-2xl border px-3 py-2" required />
-                <input name="email" placeholder="Email" type="email" className="rounded-2xl border px-3 py-2" required />
-                <input name="phone" placeholder="Phone / WhatsApp" className="rounded-2xl border px-3 py-2" />
-                <input name="city" placeholder="City" className="rounded-2xl border px-3 py-2" />
-                <input name="quantity" type="number" min="1" placeholder="Approx. qty (kg or packs)" className="rounded-2xl border px-3 py-2" />
-                <input name="budget" placeholder="Target price / budget (optional)" className="rounded-2xl border px-3 py-2" />
-                <textarea name="message" placeholder="Tell us about the order…" rows="5" className="rounded-2xl border px-3 py-2 sm:col-span-2" required />
-                <label className="sm:col-span-2 text-sm" style={{ color: stone }}>Attach reference image (optional)</label>
-                <input name="file" type="file" accept="image/*" onChange={(e)=>{
-                  const f = e.currentTarget.files?.[0];
-                  if (!f) return setShowPreview(null);
-                  if (!f.type.startsWith('image/')) return setShowPreview('not-image');
-                  const url = URL.createObjectURL(f);
-                  setShowPreview(url);
-                }} className="sm:col-span-2" />
-                {showPreview && showPreview !== 'not-image' && (<div className="sm:col-span-2"><img src={showPreview} alt="Upload preview" style={{height:200, width:'100%', objectFit:'cover', borderRadius:16}} /></div>)}
-                {showPreview === 'not-image' && <p className="sm:col-span-2 text-sm" style={{ color: stone }}>Please upload an image file.</p>}
-                <div className="sm:col-span-2 flex items-center gap-2 text-sm">
-                  <input id="consent" type="checkbox" required />
-                  <label htmlFor="consent">I agree to be contacted about my enquiry.</label>
-                </div>
-                <input name="_website" tabIndex="-1" autoComplete="off" style={{ position:'absolute', left:'-5000px' }} />
-                <div className="sm:col-span-2 flex items-center gap-3">
-                  <button className="rounded-2xl px-4 py-2 text-white btn" style={{ background: charcoal }}>Send message</button>
-                  <a href="#" className="underline text-sm menu-link" style={{ color: charcoal }}>Download catalogue (PDF)</a>
-                </div>
-              </form>
-            </div>
-          </div>
-        </Section>
-      );
-    }
-
-    function Footer() {
-      const bandStyle = { background: \`linear-gradient(90deg, \${banana} 0%, \${bananaDark} 100%)\` };
-      function onSubscribe(e) { e.preventDefault(); const email = new FormData(e.currentTarget).get('email'); console.log('Newsletter subscribe:', email); }
-      return (
-        <footer className="mt-16 border-t" style={{ background: 'transparent' }}>
-          <Container>
-            <div className="framed hoverable" style={bandStyle}>
-              <div className="py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="text-center md:text-left">
-                  <h3 className="text-2xl font-extrabold" style={{ color: charcoal }}>Stay crispy with updates</h3>
-                  <p className="text-sm opacity-80" style={{ color: charcoal }}>New flavours, limited drops, and deals—no spam.</p>
-                </div>
-                <form onSubmit={onSubscribe} className="w-full md:w-auto flex items-center gap-2">
-                  <input name="email" type="email" placeholder="Your email" required className="flex-1 md:w-80 rounded-2xl px-3 py-2 border" aria-label="Email address" />
-                  <button className="rounded-2xl px-4 py-2 text-white btn" style={{ background: charcoal }} aria-label="Subscribe">Subscribe</button>
-                </form>
-              </div>
-            </div>
-          </Container>
-
-          <div className="py-12">
-            <Container>
-              <div className="framed frame-ivory">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-white" style={{ background: charcoal }}>🍌</span>
-                      <span className="font-extrabold text-xl" style={{ color: charcoal }}>Amantra</span>
-                    </div>
-                    <p className="mt-3 text-sm" style={{ color: stone }}>Clean, crunchy, and consciously made — banana chips you can trust.</p>
-                    <a href="#home" className="inline-block mt-4 text-sm menu-link" style={{ color: charcoal }}>↑ Back to top</a>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold" style={{ color: charcoal }}>Explore</h4>
-                    <ul className="mt-3 space-y-2 text-sm" style={{ color: stone }}>
-                      <li><a className="menu-link" href="#about">About</a></li>
-                      <li><a className="menu-link" href="#products">Products</a></li>
-                      <li><a className="menu-link" href="#process">Process</a></li>
-                      <li><a className="menu-link" href="#sustainability">Sustainability</a></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold" style={{ color: charcoal }}>Company</h4>
-                    <ul className="mt-3 space-y-2 text-sm" style={{ color: stone }}>
-                      <li><a className="menu-link" href="#">Privacy Policy</a></li>
-                      <li><a className="menu-link" href="#">Terms of Service</a></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold" style={{ color: charcoal }}>Contact</h4>
-                    <ul className="mt-3 space-y-2 text-sm" style={{ color: stone }}>
-                      <li>✉ hello@amantra.com</li>
-                      <li>☎ +91 90000 00000</li>
-                      <li>📍 India • Ships pan‑India</li>
-                    </ul>
-                    <div className="mt-3 flex gap-3">
-                      <a aria-label="Instagram" className="p-2 rounded-xl border link-chip" href="#">📸</a>
-                      <a aria-label="Twitter" className="p-2 rounded-xl border link-chip" href="#">𝕏</a>
-                      <a aria-label="Facebook" className="p-2 rounded-xl border link-chip" href="#">f</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Container>
-          </div>
-
-          <div className="border-t">
-            <Container>
-              <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <p className="text-sm" style={{ color: stone }}>© {new Date().getFullYear()} Amantra. Made with ❤️ for snack lovers.</p>
-                <div className="text-sm flex gap-4" style={{ color: stone }}>
-                  <a className="menu-link" href="#">Privacy</a>
-                  <a className="menu-link" href="#">Terms</a>
-                  <a className="menu-link" href="#contact">Contact</a>
-                </div>
-              </div>
-            </Container>
-          </div>
-        </footer>
-      );
-    }
-
-    function SmokeTests() {
-      React.useEffect(() => {
-        const hex = /^#[0-9A-Fa-f]{6}$/; console.assert(hex.test(banana) && hex.test(bananaDark) && hex.test(leaf) && hex.test(charcoal), "palette hex checks");
-        if (typeof document !== 'undefined') {
-          const sections = ['home','about','products','cta','process','sustainability','contact'];
-          sections.forEach(id => console.assert(!!document.getElementById(id), \`section #\${id} should exist\`));
-          const frames = document.querySelectorAll('.framed'); console.assert(frames.length >= sections.length, 'each section should be framed');
-          const cards = document.querySelectorAll('#products .product-card'); console.assert(cards.length === 3, 'products should render 3 cards');
-          const steps = document.querySelectorAll('#process .step'); console.assert(steps.length === 6, 'process should render 6 steps');
-          const btn = document.querySelector('[data-test="open-contact"]'); console.assert(!!btn, 'hero should have a Let\'s Talk trigger');
-          const headerBar = document.querySelector('.header-bar'); console.assert(!!headerBar, 'floating header bar should exist');
-          const navLinks = document.querySelectorAll('.nav-pills a'); console.assert(navLinks.length >= 4, 'nav should have at least 4 links');
-          const appBg = getComputedStyle(document.querySelector('.app')).backgroundColor; console.assert(appBg === 'rgb(255, 255, 255)', 'app background should be white');
-          const flavors = Array.from(cards).map(el => el.getAttribute('data-flavor')); const need = ['salted','spicy','mint']; need.forEach(f => console.assert(flavors.includes(f), \`missing flavor card: \${f}\`));
-          const thumbs = document.querySelectorAll('#products .thumb'); console.assert(thumbs.length === 3, 'each product should include a tinted thumb container');
-        }
-        console.log('Smoke tests passed ✔ (static html bundle)');
-      }, []);
-      return null;
-    }
-
-    function App() {
-      const [contactOpen, setContactOpen] = React.useState(false);
-      return (
-        <ErrorBoundary>
-          <GlobalStyles />
-          <main className="app font-sans antialiased text-black">
-            <SmokeTests />
-            <Nav />
-            <Hero openContact={() => alert('Open contact on static build: use the form below.')} />
-            <About />
-            <Products />
-            <CalloutCTA />
-            <Process />
-            <Sustainability />
-            <Testimonials />
-            <Contact />
-            <Footer />
-          </main>
-        </ErrorBoundary>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   </script>
 </body>
 </html>
